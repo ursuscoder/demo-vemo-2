@@ -2,227 +2,389 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>Кто онлайн</title>
-
-  <style>
-    :root {
-      font-family: system-ui, sans-serif;
-      color-scheme: light dark;
-    }
-
-    body {
-      max-width: 560px;
-      margin: 50px auto;
-      padding: 0 18px;
-    }
-
-    input, button {
-      font: inherit;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
-    input {
-      width: min(100%, 280px);
-      box-sizing: border-box;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    li {
-      margin: 10px 0;
-    }
-
-    .muted {
-      opacity: .7;
-      font-size: .9em;
-    }
-
-    #status {
-      margin: 16px 0;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Секретный чат · шутка</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#242536;background:#f5f6fb}
+*{box-sizing:border-box}
+body{margin:0}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.entry{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#FFECE8,transparent 45%),radial-gradient(circle at 90% 90%,#e1e8ff,transparent 45%),#f8f9fc}
+.entry-card{width:min(100%,430px);background:#fff;border:1px solid #e9e9f1;border-radius:28px;padding:34px;box-shadow:0 24px 80px #28304b16}
+.mark{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:#EF3124;color:#fff;font-size:25px;margin-bottom:22px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#EF3124;text-transform:uppercase}
+.entry h1{font-size:clamp(28px,6vw,37px);line-height:1.1;margin:10px 0 14px}
+.sub{color:#777b8e;line-height:1.55;margin-bottom:26px}
+.field-label{display:block;font-weight:700;margin-bottom:9px}
+.name-input{width:100%;border:1px solid #dfe1e9;border-radius:13px;padding:14px 15px;outline:none}
+.name-input:focus{border-color:#EF3124;box-shadow:0 0 0 4px #EF312417}
+.primary{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:14px;background:#EF3124;color:#fff;font-weight:750}
+.hint{font-size:12px;color:#999caf;line-height:1.5;margin:18px 0 0}
+.app{height:100dvh;display:flex;flex-direction:column;max-width:1100px;margin:auto;padding:20px;gap:16px}
+.top{background:white;border:1px solid #e9e9f1;border-radius:20px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top h1{font-size:20px;margin:0 0 5px}
+.top p{font-size:13px;color:#8b8d9c;margin:0}
+.pill{border-radius:999px;background:#e9f8ef;color:#247b4d;padding:8px 12px;font-size:13px;font-weight:750;white-space:nowrap}
+.layout{display:grid;grid-template-columns:240px 1fr;gap:16px;min-height:0;flex:1}
+.side,.chat{background:white;border:1px solid #e9e9f1;border-radius:20px;min-height:0}
+.side{padding:20px;overflow:auto}
+.side h2{font-size:15px;margin:0 0 16px}
+.people{list-style:none;padding:0;margin:0}
+.people li{display:flex;align-items:center;gap:10px;padding:10px 0;overflow-wrap:anywhere}
+.avatar{width:33px;height:33px;flex:none;border-radius:12px;background:#FFF0EE;color:#D82B20;display:grid;place-items:center;font-weight:800}
+.who{font-size:14px;font-weight:650}
+.me{font-size:11px;color:#9396a3}
+.rename{background:none;border:0;color:#D82B20;padding:0;margin-top:18px;font-size:13px}
+.chat{display:flex;flex-direction:column;overflow:hidden}
+.chat-head{padding:17px 20px;border-bottom:1px solid #f0f0f5;font-weight:750}
+.chat-head small{display:block;color:#9396a3;font-size:12px;font-weight:400;margin-top:5px}
+.messages{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:12px}
+.empty{margin:auto;text-align:center;color:#9a9bab;line-height:1.6}
+.message{max-width:82%;align-self:flex-start;background:#f2f3f8;padding:11px 14px;border-radius:15px 15px 15px 5px;overflow-wrap:anywhere}
+.message.own{align-self:flex-end;background:#FFE7E3;border-radius:15px 15px 5px 15px}
+.meta{font-size:11px;color:#8c8e9e;margin-bottom:5px}
+.body{white-space:pre-wrap;font-size:14px;line-height:1.45}
+.system{align-self:center;text-align:center;font-size:12px;color:#9c9eac}
+.composer{display:flex;gap:10px;padding:14px;border-top:1px solid #f0f0f5}
+.composer input{flex:1;min-width:0;padding:13px;border:1px solid #e3e4ec;border-radius:12px;outline:none}
+.composer button{border:0;border-radius:12px;background:#EF3124;color:white;padding:0 20px;font-weight:700}
+.composer button:disabled{opacity:.5;cursor:not-allowed}
+.foot{font-size:11px;color:#9b9dad;text-align:center}
+@media(max-width:650px){
+.app{padding:10px;gap:10px}
+.top{padding:14px}
+.top h1{font-size:17px}
+.layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}
+.side{padding:12px 15px;max-height:115px}
+.side h2{margin:0 0 8px}
+.people{display:flex;gap:12px;overflow-x:auto}
+.people li{flex:none;padding:0}
+.people .avatar{width:26px;height:26px}
+.rename{margin:8px 0 0}
+.chat-head{padding:12px 15px}
+.messages{padding:14px}
+.composer{padding:10px}
+.composer button{padding:0 14px}
+}
+</style>
 </head>
-
 <body>
-  <h1>Кто сейчас онлайн</h1>
+<section class="entry" id="entry">
+  <div class="entry-card">
+    <div class="mark">
+      <svg height="40" viewBox="0 0 33 50" width="28" aria-label="Логотип А" role="img">
+        <path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path>
+      </svg>
+    </div>
+    <h1>Вход в секретный чат Альфа-Банка</h1>
+    <form id="login">
+      <label class="field-label" for="nickname">Твоё имя</label>
+      <input class="name-input" id="nickname" maxlength="32" placeholder="Например, Саша" autocomplete="nickname" required>
+      <button class="primary">Войти в чат →</button>
+    </form>
+  </div>
+</section>
 
-  <form id="nameForm">
-    <label for="name">Ваше имя</label>
-    <br>
-    <input
-      id="name"
-      maxlength="40"
-      required
-      autocomplete="nickname"
-      placeholder="Введите имя"
-    >
-    <button type="submit">
-      Войти / изменить имя
-    </button>
-  </form>
+<main class="app hidden" id="app">
+  <header class="top">
+    <div>
+      <h1>А чё это ты сюда вошёл? 👀</h1>
+      <p>Ну раз уж зашёл — оставайся поболтать ☕</p>
+    </div>
+    <span class="pill" id="online">● 1 онлайн</span>
+  </header>
 
-  <p id="status" role="status">
-    Введите имя, чтобы подключиться.
-  </p>
+  <div class="layout">
+    <aside class="side">
+      <h2>Сейчас здесь</h2>
+      <ul class="people" id="people"></ul>
+      <button class="rename" id="rename">Изменить имя</button>
+    </aside>
 
-  <h2>
-    Участники: <span id="count">0</span>
-  </h2>
+    <section class="chat">
+      <div class="chat-head">
+        Секретный чат
+        <small id="connection">Подключаемся…</small>
+      </div>
 
-  <ul id="members"></ul>
+      <div class="messages" id="messages">
+        <div class="empty" id="empty">
+          Пока тихо…<br>
+          Начни разговор первым ✨
+        </div>
+      </div>
 
-  <p class="muted">
-    Имя и ID видны другим участникам.
-    Соединение P2P; внешняя инфраструктура
-    используется для обнаружения участников.
-    Не используйте конфиденциальные имена.
-  </p>
+      <form class="composer" id="composer">
+        <input id="message" maxlength="1000" placeholder="Написать сообщение…" autocomplete="off" required>
+        <button id="send" type="submit">Отправить</button>
+      </form>
+    </section>
+  </div>
+</main>
 
-  <script type="module">
-    import { joinRoom } from
-      'https://esm.sh/trystero@0.22.0';
+<script type="module">
+import { joinRoom } from 'https://esm.sh/trystero@0.22.0';
 
-    const $ = id => document.getElementById(id);
+// Замените APP_ID на уникальную строку.
+// Она должна совпадать на всех устройствах.
+const APP_ID = 'qr-secret-chat-alpha-fun-2026-change-me-8f29';
+const ROOM_ID = 'secret-lounge';
 
-    const key = 'presence-demo-v1';
+const $ = id => document.getElementById(id);
+const storageKey = 'qr-secret-chat-identity-v1';
 
-    const identity = JSON.parse(
-      localStorage.getItem(key) || 'null'
-    ) || {
-      id: crypto.randomUUID(),
-      name: ''
-    };
+let saved = {};
 
-    $('name').value = identity.name;
+try {
+  saved = JSON.parse(localStorage.getItem(storageKey) || '{}') || {};
+} catch {}
 
-    let room;
-    let sendProfile;
+const me = {
+  id: typeof saved.id === 'string' ? saved.id : crypto.randomUUID(),
+  name: typeof saved.name === 'string' ? saved.name : ''
+};
 
-    const peers = new Map();
+const peers = new Map();
+let room, sendProfile, sendMessage;
+const seen = new Set();
 
-    function render() {
-      $('members').replaceChildren();
+$('nickname').value = me.name;
 
-      if (identity.name) {
-        const li = document.createElement('li');
-        li.textContent = `${identity.name} (вы)`;
-        $('members').append(li);
+function save() {
+  localStorage.setItem(storageKey, JSON.stringify(me));
+}
+
+function renderPeople() {
+  $('people').replaceChildren();
+
+  const all = [
+    { name: me.name, self: true },
+    ...[...peers.values()]
+      .filter(x => x.name)
+      .map(x => ({ name: x.name, self: false }))
+  ];
+
+  for (const person of all) {
+    const li = document.createElement('li');
+
+    const av = document.createElement('span');
+    av.className = 'avatar';
+    av.textContent = person.name.charAt(0).toUpperCase() || '?';
+
+    const label = document.createElement('span');
+    label.className = 'who';
+    label.textContent = person.name + (person.self ? ' (ты)' : '');
+
+    li.append(av, label);
+    $('people').append(li);
+  }
+
+  $('online').textContent = `● ${all.length} онлайн`;
+}
+
+function addSystem(text) {
+  const el = document.createElement('div');
+  el.className = 'system';
+  el.textContent = text;
+  $('messages').append(el);
+  scrollBottom();
+}
+
+function scrollBottom() {
+  $('messages').scrollTop = $('messages').scrollHeight;
+}
+
+function addMessage(data, own = false) {
+  if (
+    !data ||
+    typeof data.text !== 'string' ||
+    typeof data.id !== 'string' ||
+    seen.has(data.id)
+  ) return;
+
+  seen.add(data.id);
+  $('empty')?.remove();
+
+  const el = document.createElement('article');
+  el.className = 'message' + (own ? ' own' : '');
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+
+  const time = new Date(
+    Number.isFinite(data.time) ? data.time : Date.now()
+  ).toLocaleTimeString('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  meta.textContent =
+    `${own ? 'Ты' : String(data.name || 'Гость').slice(0, 32)} · ${time}`;
+
+  const body = document.createElement('div');
+  body.className = 'body';
+  body.textContent = data.text.slice(0, 1000);
+
+  el.append(meta, body);
+  $('messages').append(el);
+  scrollBottom();
+}
+
+function profile() {
+  return {
+    id: me.id,
+    name: me.name
+  };
+}
+
+function connect() {
+  if (room) return;
+
+  try {
+    room = joinRoom({ appId: APP_ID }, ROOM_ID);
+
+    [sendProfile] = room.makeAction('profile');
+    const [, receiveProfile] = room.makeAction('profile');
+
+    [sendMessage] = room.makeAction('chat');
+    const [, receiveMessage] = room.makeAction('chat');
+
+    receiveProfile((data, peerId) => {
+      if (
+        !data ||
+        typeof data.name !== 'string' ||
+        typeof data.id !== 'string'
+      ) return;
+
+      const isNew = !peers.has(peerId);
+
+      peers.set(peerId, {
+        name: data.name.slice(0, 32),
+        id: data.id.slice(0, 100)
+      });
+
+      renderPeople();
+
+      if (isNew) {
+        addSystem(`${data.name.slice(0, 32)} теперь с нами 👋`);
       }
-
-      for (const [peerId, profile] of peers) {
-        const li = document.createElement('li');
-
-        li.textContent =
-          `${profile.name} · ${profile.id.slice(0, 8)}`;
-
-        $('members').append(li);
-      }
-
-      $('count').textContent = String(
-        peers.size + (identity.name ? 1 : 0)
-      );
-    }
-
-    function profile() {
-      return {
-        id: identity.id,
-        name: identity.name
-      };
-    }
-
-    function connect() {
-      if (room) return;
-
-      $('status').textContent = 'Подключение…';
-
-      try {
-        room = joinRoom(
-          {
-            appId:
-              'github-pages-presence-example-2026-change-this-id'
-          },
-          'lobby'
-        );
-
-        const [send, receive] =
-          room.makeAction('profile');
-
-        sendProfile = send;
-
-        receive((data, peerId) => {
-          if (
-            !data ||
-            typeof data.name !== 'string' ||
-            typeof data.id !== 'string'
-          ) {
-            return;
-          }
-
-          peers.set(peerId, {
-            name: data.name.slice(0, 40),
-            id: data.id.slice(0, 100)
-          });
-
-          render();
-        });
-
-        room.onPeerJoin(peerId => {
-          sendProfile(profile(), peerId);
-
-          $('status').textContent =
-            'Подключено: обмен данными с участниками';
-        });
-
-        room.onPeerLeave(peerId => {
-          peers.delete(peerId);
-          render();
-        });
-
-        $('status').textContent =
-          'Комната открыта. Ожидаем участников.';
-
-      } catch (err) {
-        room = null;
-
-        $('status').textContent =
-          'Не удалось подключиться: ' + String(err);
-      }
-    }
-
-    $('nameForm').addEventListener('submit', e => {
-      e.preventDefault();
-
-      const name = $('name').value.trim();
-
-      if (!name) return;
-
-      identity.name = name;
-
-      localStorage.setItem(
-        key,
-        JSON.stringify(identity)
-      );
-
-      connect();
-
-      if (sendProfile) {
-        sendProfile(profile());
-      }
-
-      render();
     });
 
-    if (identity.name) {
-      connect();
-    }
+    receiveMessage((data, peerId) => {
+      if (
+        !peers.has(peerId) ||
+        !data ||
+        typeof data.text !== 'string' ||
+        typeof data.id !== 'string'
+      ) return;
 
-    render();
-  </script>
+      addMessage({
+        ...data,
+        name: peers.get(peerId).name
+      });
+    });
+
+    room.onPeerJoin(async peerId => {
+      $('connection').textContent =
+        'Связь с участниками установлена';
+
+      try {
+        await sendProfile(profile(), peerId);
+      } catch (e) {
+        console.warn('Profile send:', e);
+      }
+    });
+
+    room.onPeerLeave(peerId => {
+      const person = peers.get(peerId);
+
+      peers.delete(peerId);
+      renderPeople();
+
+      if (person) {
+        addSystem(`${person.name} вышел из чата`);
+      }
+
+      if (!peers.size) {
+        $('connection').textContent =
+          'Ожидаем других участников…';
+      }
+    });
+
+    $('connection').textContent =
+      'Ищем участников… (иногда это занимает время)';
+
+  } catch (e) {
+    console.error(e);
+
+    $('connection').textContent =
+      'Не удалось подключиться. Обнови страницу.';
+
+    room = null;
+  }
+}
+
+function enter() {
+  $('entry').classList.add('hidden');
+  $('app').classList.remove('hidden');
+
+  renderPeople();
+  connect();
+}
+
+$('login').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const name = $('nickname').value.trim();
+  if (!name) return;
+
+  me.name = name.slice(0, 32);
+  save();
+  enter();
+
+  if (sendProfile) {
+    sendProfile(profile()).catch(console.warn);
+  }
+});
+
+$('rename').addEventListener('click', () => {
+  $('app').classList.add('hidden');
+  $('entry').classList.remove('hidden');
+  $('nickname').focus();
+});
+
+$('composer').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const input = $('message');
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const data = {
+    id: crypto.randomUUID(),
+    text: text.slice(0, 1000),
+    time: Date.now()
+  };
+
+  addMessage({ ...data, name: me.name }, true);
+  input.value = '';
+
+  if (sendMessage) {
+    try {
+      await sendMessage(data);
+    } catch (err) {
+      console.warn(err);
+      addSystem('Не удалось доставить сообщение всем участникам');
+    }
+  }
+});
+
+// Каждый визит начинается с экрана входа,
+// даже если имя уже сохранено.
+</script>
 </body>
 </html>
