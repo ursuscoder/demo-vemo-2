@@ -1,0 +1,228 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>Кто онлайн</title>
+
+  <style>
+    :root {
+      font-family: system-ui, sans-serif;
+      color-scheme: light dark;
+    }
+
+    body {
+      max-width: 560px;
+      margin: 50px auto;
+      padding: 0 18px;
+    }
+
+    input, button {
+      font: inherit;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    input {
+      width: min(100%, 280px);
+      box-sizing: border-box;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    .muted {
+      opacity: .7;
+      font-size: .9em;
+    }
+
+    #status {
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Кто сейчас онлайн</h1>
+
+  <form id="nameForm">
+    <label for="name">Ваше имя</label>
+    <br>
+    <input
+      id="name"
+      maxlength="40"
+      required
+      autocomplete="nickname"
+      placeholder="Введите имя"
+    >
+    <button type="submit">
+      Войти / изменить имя
+    </button>
+  </form>
+
+  <p id="status" role="status">
+    Введите имя, чтобы подключиться.
+  </p>
+
+  <h2>
+    Участники: <span id="count">0</span>
+  </h2>
+
+  <ul id="members"></ul>
+
+  <p class="muted">
+    Имя и ID видны другим участникам.
+    Соединение P2P; внешняя инфраструктура
+    используется для обнаружения участников.
+    Не используйте конфиденциальные имена.
+  </p>
+
+  <script type="module">
+    import { joinRoom } from
+      'https://esm.sh/trystero@0.22.0';
+
+    const $ = id => document.getElementById(id);
+
+    const key = 'presence-demo-v1';
+
+    const identity = JSON.parse(
+      localStorage.getItem(key) || 'null'
+    ) || {
+      id: crypto.randomUUID(),
+      name: ''
+    };
+
+    $('name').value = identity.name;
+
+    let room;
+    let sendProfile;
+
+    const peers = new Map();
+
+    function render() {
+      $('members').replaceChildren();
+
+      if (identity.name) {
+        const li = document.createElement('li');
+        li.textContent = `${identity.name} (вы)`;
+        $('members').append(li);
+      }
+
+      for (const [peerId, profile] of peers) {
+        const li = document.createElement('li');
+
+        li.textContent =
+          `${profile.name} · ${profile.id.slice(0, 8)}`;
+
+        $('members').append(li);
+      }
+
+      $('count').textContent = String(
+        peers.size + (identity.name ? 1 : 0)
+      );
+    }
+
+    function profile() {
+      return {
+        id: identity.id,
+        name: identity.name
+      };
+    }
+
+    function connect() {
+      if (room) return;
+
+      $('status').textContent = 'Подключение…';
+
+      try {
+        room = joinRoom(
+          {
+            appId:
+              'github-pages-presence-example-2026-change-this-id'
+          },
+          'lobby'
+        );
+
+        const [send, receive] =
+          room.makeAction('profile');
+
+        sendProfile = send;
+
+        receive((data, peerId) => {
+          if (
+            !data ||
+            typeof data.name !== 'string' ||
+            typeof data.id !== 'string'
+          ) {
+            return;
+          }
+
+          peers.set(peerId, {
+            name: data.name.slice(0, 40),
+            id: data.id.slice(0, 100)
+          });
+
+          render();
+        });
+
+        room.onPeerJoin(peerId => {
+          sendProfile(profile(), peerId);
+
+          $('status').textContent =
+            'Подключено: обмен данными с участниками';
+        });
+
+        room.onPeerLeave(peerId => {
+          peers.delete(peerId);
+          render();
+        });
+
+        $('status').textContent =
+          'Комната открыта. Ожидаем участников.';
+
+      } catch (err) {
+        room = null;
+
+        $('status').textContent =
+          'Не удалось подключиться: ' + String(err);
+      }
+    }
+
+    $('nameForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = $('name').value.trim();
+
+      if (!name) return;
+
+      identity.name = name;
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(identity)
+      );
+
+      connect();
+
+      if (sendProfile) {
+        sendProfile(profile());
+      }
+
+      render();
+    });
+
+    if (identity.name) {
+      connect();
+    }
+
+    render();
+  </script>
+</body>
+</html>
