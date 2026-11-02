@@ -1,390 +1,250 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Секретный чат · шутка</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#242536;background:#f5f6fb}
-*{box-sizing:border-box}
-body{margin:0}
-button,input{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-.entry{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#FFECE8,transparent 45%),radial-gradient(circle at 90% 90%,#e1e8ff,transparent 45%),#f8f9fc}
-.entry-card{width:min(100%,430px);background:#fff;border:1px solid #e9e9f1;border-radius:28px;padding:34px;box-shadow:0 24px 80px #28304b16}
-.mark{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:#EF3124;color:#fff;font-size:25px;margin-bottom:22px}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#EF3124;text-transform:uppercase}
-.entry h1{font-size:clamp(28px,6vw,37px);line-height:1.1;margin:10px 0 14px}
-.sub{color:#777b8e;line-height:1.55;margin-bottom:26px}
-.field-label{display:block;font-weight:700;margin-bottom:9px}
-.name-input{width:100%;border:1px solid #dfe1e9;border-radius:13px;padding:14px 15px;outline:none}
-.name-input:focus{border-color:#EF3124;box-shadow:0 0 0 4px #EF312417}
-.primary{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:14px;background:#EF3124;color:#fff;font-weight:750}
-.hint{font-size:12px;color:#999caf;line-height:1.5;margin:18px 0 0}
-.app{height:100dvh;display:flex;flex-direction:column;max-width:1100px;margin:auto;padding:20px;gap:16px}
-.top{background:white;border:1px solid #e9e9f1;border-radius:20px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.top h1{font-size:20px;margin:0 0 5px}
-.top p{font-size:13px;color:#8b8d9c;margin:0}
-.pill{border-radius:999px;background:#e9f8ef;color:#247b4d;padding:8px 12px;font-size:13px;font-weight:750;white-space:nowrap}
-.layout{display:grid;grid-template-columns:240px 1fr;gap:16px;min-height:0;flex:1}
-.side,.chat{background:white;border:1px solid #e9e9f1;border-radius:20px;min-height:0}
-.side{padding:20px;overflow:auto}
-.side h2{font-size:15px;margin:0 0 16px}
-.people{list-style:none;padding:0;margin:0}
-.people li{display:flex;align-items:center;gap:10px;padding:10px 0;overflow-wrap:anywhere}
-.avatar{width:33px;height:33px;flex:none;border-radius:12px;background:#FFF0EE;color:#D82B20;display:grid;place-items:center;font-weight:800}
-.who{font-size:14px;font-weight:650}
-.me{font-size:11px;color:#9396a3}
-.rename{background:none;border:0;color:#D82B20;padding:0;margin-top:18px;font-size:13px}
-.chat{display:flex;flex-direction:column;overflow:hidden}
-.chat-head{padding:17px 20px;border-bottom:1px solid #f0f0f5;font-weight:750}
-.chat-head small{display:block;color:#9396a3;font-size:12px;font-weight:400;margin-top:5px}
-.messages{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:12px}
-.empty{margin:auto;text-align:center;color:#9a9bab;line-height:1.6}
-.message{max-width:82%;align-self:flex-start;background:#f2f3f8;padding:11px 14px;border-radius:15px 15px 15px 5px;overflow-wrap:anywhere}
-.message.own{align-self:flex-end;background:#FFE7E3;border-radius:15px 15px 5px 15px}
-.meta{font-size:11px;color:#8c8e9e;margin-bottom:5px}
-.body{white-space:pre-wrap;font-size:14px;line-height:1.45}
-.system{align-self:center;text-align:center;font-size:12px;color:#9c9eac}
-.composer{display:flex;gap:10px;padding:14px;border-top:1px solid #f0f0f5}
-.composer input{flex:1;min-width:0;padding:13px;border:1px solid #e3e4ec;border-radius:12px;outline:none}
-.composer button{border:0;border-radius:12px;background:#EF3124;color:white;padding:0 20px;font-weight:700}
-.composer button:disabled{opacity:.5;cursor:not-allowed}
-.foot{font-size:11px;color:#9b9dad;text-align:center}
-@media(max-width:650px){
-.app{padding:10px;gap:10px}
-.top{padding:14px}
-.top h1{font-size:17px}
-.layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}
-.side{padding:12px 15px;max-height:115px}
-.side h2{margin:0 0 8px}
-.people{display:flex;gap:12px;overflow-x:auto}
-.people li{flex:none;padding:0}
-.people .avatar{width:26px;height:26px}
-.rename{margin:8px 0 0}
-.chat-head{padding:12px 15px}
-.messages{padding:14px}
-.composer{padding:10px}
-.composer button{padding:0 14px}
-}
+:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#242536;background:#f5f6fb}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}.entry{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#FFECE8,transparent 45%),radial-gradient(circle at 90% 90%,#e1e8ff,transparent 45%),#f8f9fc}.entry-card{width:min(100%,430px);background:#fff;border:1px solid #e9e9f1;border-radius:28px;padding:34px;box-shadow:0 24px 80px #28304b16}.mark{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:#EF3124;color:#fff;font-size:25px;margin-bottom:22px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#EF3124;text-transform:uppercase}.entry h1{font-size:clamp(28px,6vw,37px);line-height:1.1;margin:10px 0 14px}.sub{color:#777b8e;line-height:1.55;margin-bottom:26px}.field-label{display:block;font-weight:700;margin-bottom:9px}.name-input{width:100%;border:1px solid #dfe1e9;border-radius:13px;padding:14px 15px;outline:none}.name-input:focus{border-color:#EF3124;box-shadow:0 0 0 4px #EF312417}.primary{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:14px;background:#EF3124;color:#fff;font-weight:750}.hint{font-size:12px;color:#999caf;line-height:1.5;margin:18px 0 0}.app{height:100dvh;display:flex;flex-direction:column;max-width:1100px;margin:auto;padding:20px;gap:16px}.top{background:white;border:1px solid #e9e9f1;border-radius:20px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.top h1{font-size:20px;margin:0 0 5px}.top p{font-size:13px;color:#8b8d9c;margin:0}.pill{border-radius:999px;background:#e9f8ef;color:#247b4d;padding:8px 12px;font-size:13px;font-weight:750;white-space:nowrap}.presence-stats{display:flex;flex-wrap:wrap;gap:10px}.stat{background:#fff;border:1px solid #e9e9f1;border-radius:14px;padding:12px 18px;font-size:14px;color:#777b8e}.stat strong{font-size:22px;color:#242536;margin-right:6px}.layout{display:grid;grid-template-columns:240px 1fr;gap:16px;min-height:0;flex:1}.side,.chat{background:white;border:1px solid #e9e9f1;border-radius:20px;min-height:0}.side{padding:20px;overflow:auto}.side h2{font-size:15px;margin:0 0 16px}.people{list-style:none;padding:0;margin:0}.people li{display:flex;align-items:center;gap:10px;padding:10px 0;overflow-wrap:anywhere}.avatar{width:33px;height:33px;flex:none;border-radius:12px;background:#FFF0EE;color:#D82B20;display:grid;place-items:center;font-weight:800}.who{font-size:14px;font-weight:650}.me{font-size:11px;color:#9396a3}.rename{background:none;border:0;color:#D82B20;padding:0;margin-top:18px;font-size:13px}.chat{display:flex;flex-direction:column;overflow:hidden}.chat-head{padding:17px 20px;border-bottom:1px solid #f0f0f5;font-weight:750}.chat-head small{display:block;color:#9396a3;font-size:12px;font-weight:400;margin-top:5px}.messages{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:12px}.empty{margin:auto;text-align:center;color:#9a9bab;line-height:1.6}.message{max-width:82%;align-self:flex-start;background:#f2f3f8;padding:11px 14px;border-radius:15px 15px 15px 5px;overflow-wrap:anywhere}.message.own{align-self:flex-end;background:#FFE7E3;border-radius:15px 15px 5px 15px}.meta{font-size:11px;color:#8c8e9e;margin-bottom:5px}.body{white-space:pre-wrap;font-size:14px;line-height:1.45}.system{align-self:center;text-align:center;font-size:12px;color:#9c9eac}.composer{display:flex;gap:10px;padding:14px;border-top:1px solid #f0f0f5}.composer input{flex:1;min-width:0;padding:13px;border:1px solid #e3e4ec;border-radius:12px;outline:none}.composer button{border:0;border-radius:12px;background:#EF3124;color:white;padding:0 20px;font-weight:700}.composer button:disabled{opacity:.5;cursor:not-allowed}.foot{font-size:11px;color:#9b9dad;text-align:center}@media(max-width:650px){.app{padding:10px;gap:10px}.top{padding:14px}.top h1{font-size:17px}.layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}.side{padding:12px 15px;max-height:115px}.side h2{margin:0 0 8px}.people{display:flex;gap:12px;overflow-x:auto}.people li{flex:none;padding:0}.people .avatar{width:26px;height:26px}.rename{margin:8px 0 0}.chat-head{padding:12px 15px}.messages{padding:14px}.composer{padding:10px}.composer button{padding:0 14px}}
 </style>
 </head>
 <body>
-<section class="entry" id="entry">
-  <div class="entry-card">
-    <div class="mark">
-      <svg height="40" viewBox="0 0 33 50" width="28" aria-label="Логотип А" role="img">
-        <path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path>
-      </svg>
-    </div>
-    <h1>Вход в секретный чат Альфа-Банка</h1>
-    <form id="login">
-      <label class="field-label" for="nickname">Твоё имя</label>
-      <input class="name-input" id="nickname" maxlength="32" placeholder="Например, Саша" autocomplete="nickname" required>
-      <button class="primary">Войти в чат →</button>
-    </form>
-  </div>
-</section>
-
-<main class="app hidden" id="app">
-  <header class="top">
-    <div>
-      <h1>А чё это ты сюда вошёл? 👀</h1>
-      <p>Ну раз уж зашёл — оставайся поболтать ☕</p>
-    </div>
-    <span class="pill" id="online">● 1 онлайн</span>
-  </header>
-
-  <div class="layout">
-    <aside class="side">
-      <h2>Сейчас здесь</h2>
-      <ul class="people" id="people"></ul>
-      <button class="rename" id="rename">Изменить имя</button>
-    </aside>
-
-    <section class="chat">
-      <div class="chat-head">
-        Секретный чат
-        <small id="connection">Подключаемся…</small>
-      </div>
-
-      <div class="messages" id="messages">
-        <div class="empty" id="empty">
-          Пока тихо…<br>
-          Начни разговор первым ✨
-        </div>
-      </div>
-
-      <form class="composer" id="composer">
-        <input id="message" maxlength="1000" placeholder="Написать сообщение…" autocomplete="off" required>
-        <button id="send" type="submit">Отправить</button>
-      </form>
-    </section>
-  </div>
-</main>
-
+<section class="entry" id="entry"><div class="entry-card"><div class="mark"><svg height="40" viewBox="0 0 33 50" width="28" aria-label="Логотип А" role="img"><path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path></svg></div><h1>Вход в секретный чат Альфа-Банка</h1><form id="login"><label class="field-label" for="nickname">Твоё имя</label><input class="name-input" id="nickname" maxlength="32" placeholder="Например, Саша" autocomplete="nickname" required><button class="primary">Войти в чат →</button></form></div></section>
+<main class="app hidden" id="app"><header class="top"><div><h1>А чё это ты сюда вошёл? 👀</h1><p>Ну раз уж зашёл — оставайся поболтать ☕</p></div><span class="pill" id="online">● 1 онлайн</span></header><div class="presence-stats" aria-live="polite"><div class="stat"><strong id="enteringCount">0</strong> вводят имя</div><div class="stat"><strong id="chattingCount">0</strong> уже в чате</div></div><div class="layout"><aside class="side"><h2>Сейчас здесь</h2><ul class="people" id="people"></ul><button class="rename" id="rename">Изменить имя</button></aside><section class="chat"><div class="chat-head">Секретный чат <small id="connection">Подключаемся…</small></div><div class="messages" id="messages"><div class="empty" id="empty">Пока тихо…<br>Начни разговор первым ✨</div></div><form class="composer" id="composer"><input id="message" maxlength="1000" placeholder="Написать сообщение…" autocomplete="off" required><button id="send" type="submit">Отправить</button></form></section></div></main>
 <script type="module">
 import { joinRoom } from 'https://esm.sh/trystero@0.22.0';
 
-// Замените APP_ID на уникальную строку.
-// Она должна совпадать на всех устройствах.
 const APP_ID = 'qr-secret-chat-alpha-fun-2026-change-me-8f29';
 const ROOM_ID = 'secret-lounge';
-
 const $ = id => document.getElementById(id);
-const storageKey = 'qr-secret-chat-identity-v1';
+const identityKey = 'qr-secret-chat-identity-v1';
+const historyKey = 'qr-secret-chat-history-v1';
+const HISTORY_LIMIT = 150;
+const peers = new Map();
+const history = new Map();
+let room, sendProfile, sendMessage, sendHistoryRequest, sendHistoryChunk;
+let inChat = false;
 
-let saved = {};
-
-try {
-  saved = JSON.parse(localStorage.getItem(storageKey) || '{}') || {};
-} catch {}
-
+function load(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+}
+const saved = load(identityKey, {});
 const me = {
   id: typeof saved.id === 'string' ? saved.id : crypto.randomUUID(),
   name: typeof saved.name === 'string' ? saved.name : ''
 };
-
-const peers = new Map();
-let room, sendProfile, sendMessage;
-const seen = new Set();
-
 $('nickname').value = me.name;
 
-function save() {
-  localStorage.setItem(storageKey, JSON.stringify(me));
+function persistHistory() {
+  try { localStorage.setItem(historyKey, JSON.stringify(sortedHistory())); }
+  catch (error) { console.warn('History storage:', error); }
 }
-
+function sortedHistory() {
+  return [...history.values()].sort((a, b) => a.time - b.time || a.id.localeCompare(b.id));
+}
+function normalizeMessage(data) {
+  if (!data || typeof data.id !== 'string' || data.id.length > 100 ||
+      typeof data.text !== 'string' || !data.text.trim() ||
+      typeof data.name !== 'string' || !Number.isFinite(data.time)) return null;
+  return {
+    id: data.id,
+    text: data.text.slice(0, 1000),
+    name: data.name.slice(0, 32),
+    time: Math.min(Date.now() + 60000, Math.max(0, data.time)),
+    authorId: typeof data.authorId === 'string' ? data.authorId.slice(0, 100) : ''
+  };
+}
+function mergeMessages(items) {
+  let changed = false;
+  for (const raw of items) {
+    const msg = normalizeMessage(raw);
+    if (msg && !history.has(msg.id)) {
+      history.set(msg.id, msg);
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  const ordered = sortedHistory();
+  for (const old of ordered.slice(0, Math.max(0, ordered.length - HISTORY_LIMIT))) {
+    history.delete(old.id);
+  }
+  persistHistory();
+  renderMessages();
+}
+function renderMessages() {
+  const container = $('messages');
+  const atBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+  container.replaceChildren();
+  const ordered = sortedHistory();
+  if (!ordered.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'Пока тихо… Начни разговор первым ✨';
+    container.append(empty);
+  }
+  for (const data of ordered) {
+    const own = data.authorId === me.id;
+    const el = document.createElement('article');
+    el.className = 'message' + (own ? ' own' : '');
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const time = new Date(data.time).toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'});
+    meta.textContent = `${own ? 'Ты' : data.name || 'Гость'} · ${time}`;
+    const body = document.createElement('div');
+    body.className = 'body';
+    body.textContent = data.text;
+    el.append(meta, body);
+    container.append(el);
+  }
+  if (atBottom) container.scrollTop = container.scrollHeight;
+}
+function addSystem(text) {
+  // Системные события не входят в общую историю.
+  console.info('[presence]', text);
+}
 function renderPeople() {
   $('people').replaceChildren();
-
   const all = [
-    { name: me.name, self: true },
-    ...[...peers.values()]
-      .filter(x => x.name)
-      .map(x => ({ name: x.name, self: false }))
+    ...(inChat ? [{name:me.name,self:true}] : []),
+    ...[...peers.values()].filter(x => x.status === 'chatting' && x.name)
+      .map(x => ({name:x.name,self:false}))
   ];
-
   for (const person of all) {
     const li = document.createElement('li');
-
     const av = document.createElement('span');
     av.className = 'avatar';
     av.textContent = person.name.charAt(0).toUpperCase() || '?';
-
     const label = document.createElement('span');
     label.className = 'who';
     label.textContent = person.name + (person.self ? ' (ты)' : '');
-
     li.append(av, label);
     $('people').append(li);
   }
-
-  $('online').textContent = `● ${all.length} онлайн`;
+  const entering = (inChat ? 0 : 1) + [...peers.values()].filter(x => x.status !== 'chatting').length;
+  $('enteringCount').textContent = entering;
+  $('chattingCount').textContent = all.length;
+  $('online').textContent = `● ${entering + all.length} на сайте`;
 }
-
-function addSystem(text) {
-  const el = document.createElement('div');
-  el.className = 'system';
-  el.textContent = text;
-  $('messages').append(el);
-  scrollBottom();
-}
-
-function scrollBottom() {
-  $('messages').scrollTop = $('messages').scrollHeight;
-}
-
-function addMessage(data, own = false) {
-  if (
-    !data ||
-    typeof data.text !== 'string' ||
-    typeof data.id !== 'string' ||
-    seen.has(data.id)
-  ) return;
-
-  seen.add(data.id);
-  $('empty')?.remove();
-
-  const el = document.createElement('article');
-  el.className = 'message' + (own ? ' own' : '');
-
-  const meta = document.createElement('div');
-  meta.className = 'meta';
-
-  const time = new Date(
-    Number.isFinite(data.time) ? data.time : Date.now()
-  ).toLocaleTimeString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  meta.textContent =
-    `${own ? 'Ты' : String(data.name || 'Гость').slice(0, 32)} · ${time}`;
-
-  const body = document.createElement('div');
-  body.className = 'body';
-  body.textContent = data.text.slice(0, 1000);
-
-  el.append(meta, body);
-  $('messages').append(el);
-  scrollBottom();
-}
-
 function profile() {
-  return {
-    id: me.id,
-    name: me.name
-  };
+  return {id:me.id,name:inChat?me.name:'',status:inChat?'chatting':'entering'};
 }
-
+async function sendHistoryTo(peerId) {
+  const items = sortedHistory();
+  // Небольшие порции, чтобы не превышать лимит сообщений WebRTC.
+  for (let i = 0; i < items.length; i += 20) {
+    await sendHistoryChunk({items: items.slice(i, i + 20)}, peerId);
+  }
+}
 function connect() {
   if (room) return;
-
   try {
-    room = joinRoom({ appId: APP_ID }, ROOM_ID);
-
+    room = joinRoom({appId:APP_ID}, ROOM_ID);
     [sendProfile] = room.makeAction('profile');
     const [, receiveProfile] = room.makeAction('profile');
-
     [sendMessage] = room.makeAction('chat');
     const [, receiveMessage] = room.makeAction('chat');
+    [sendHistoryRequest] = room.makeAction('history-request');
+    const [, receiveHistoryRequest] = room.makeAction('history-request');
+    [sendHistoryChunk] = room.makeAction('history-chunk');
+    const [, receiveHistoryChunk] = room.makeAction('history-chunk');
 
     receiveProfile((data, peerId) => {
-      if (
-        !data ||
-        typeof data.name !== 'string' ||
-        typeof data.id !== 'string'
-      ) return;
-
-      const isNew = !peers.has(peerId);
-
+      if (!data || typeof data.id !== 'string' ||
+          !['entering','chatting'].includes(data.status) ||
+          typeof data.name !== 'string') return;
       peers.set(peerId, {
-        name: data.name.slice(0, 32),
-        id: data.id.slice(0, 100)
+        name: data.name.slice(0,32),
+        id: data.id.slice(0,100),
+        status: data.status
       });
-
       renderPeople();
-
-      if (isNew) {
-        addSystem(`${data.name.slice(0, 32)} теперь с нами 👋`);
-      }
     });
-
     receiveMessage((data, peerId) => {
-      if (
-        !peers.has(peerId) ||
-        !data ||
-        typeof data.text !== 'string' ||
-        typeof data.id !== 'string'
-      ) return;
-
-      addMessage({
+      const peer = peers.get(peerId);
+      if (peer?.status !== 'chatting' || !data) return;
+      mergeMessages([{
         ...data,
-        name: peers.get(peerId).name
-      });
+        name: peer.name,
+        authorId: peer.id
+      }]);
     });
-
+    receiveHistoryRequest(async (_data, peerId) => {
+      try { await sendHistoryTo(peerId); }
+      catch (error) { console.warn('History send:', error); }
+    });
+    receiveHistoryChunk(data => {
+      if (Array.isArray(data?.items)) mergeMessages(data.items.slice(0, 20));
+    });
     room.onPeerJoin(async peerId => {
-      $('connection').textContent =
-        'Связь с участниками установлена';
-
+      if (!peers.has(peerId)) peers.set(peerId, {id:peerId,name:'',status:'entering'});
+      renderPeople();
+      $('connection').textContent = 'Связь с участниками установлена';
       try {
         await sendProfile(profile(), peerId);
-      } catch (e) {
-        console.warn('Profile send:', e);
-      }
+        await sendHistoryRequest({}, peerId);
+      } catch (error) { console.warn('Peer sync:', error); }
     });
-
     room.onPeerLeave(peerId => {
-      const person = peers.get(peerId);
-
       peers.delete(peerId);
       renderPeople();
-
-      if (person) {
-        addSystem(`${person.name} вышел из чата`);
-      }
-
-      if (!peers.size) {
-        $('connection').textContent =
-          'Ожидаем других участников…';
-      }
+      if (!peers.size) $('connection').textContent = 'Ожидаем других участников…';
     });
-
-    $('connection').textContent =
-      'Ищем участников… (иногда это занимает время)';
-
-  } catch (e) {
-    console.error(e);
-
-    $('connection').textContent =
-      'Не удалось подключиться. Обнови страницу.';
-
+    $('connection').textContent = 'Ищем участников… (иногда это занимает время)';
+  } catch (error) {
+    console.error(error);
+    $('connection').textContent = 'Не удалось подключиться. Обнови страницу.';
     room = null;
   }
 }
-
 function enter() {
+  inChat = true;
   $('entry').classList.add('hidden');
   $('app').classList.remove('hidden');
-
   renderPeople();
+  renderMessages();
   connect();
 }
-
-$('login').addEventListener('submit', e => {
-  e.preventDefault();
-
+$('login').addEventListener('submit', event => {
+  event.preventDefault();
   const name = $('nickname').value.trim();
   if (!name) return;
-
-  me.name = name.slice(0, 32);
-  save();
+  me.name = name.slice(0,32);
+  localStorage.setItem(identityKey, JSON.stringify(me));
   enter();
-
-  if (sendProfile) {
-    sendProfile(profile()).catch(console.warn);
-  }
+  if (sendProfile) sendProfile(profile()).catch(console.warn);
 });
-
 $('rename').addEventListener('click', () => {
+  inChat = false;
+  renderPeople();
+  if (sendProfile) sendProfile(profile()).catch(console.warn);
   $('app').classList.add('hidden');
   $('entry').classList.remove('hidden');
   $('nickname').focus();
 });
-
-$('composer').addEventListener('submit', async e => {
-  e.preventDefault();
-
+$('composer').addEventListener('submit', async event => {
+  event.preventDefault();
   const input = $('message');
   const text = input.value.trim();
-
   if (!text) return;
-
   const data = {
     id: crypto.randomUUID(),
-    text: text.slice(0, 1000),
+    text: text.slice(0,1000),
+    name: me.name,
+    authorId: me.id,
     time: Date.now()
   };
-
-  addMessage({ ...data, name: me.name }, true);
+  mergeMessages([data]);
   input.value = '';
-
   if (sendMessage) {
-    try {
-      await sendMessage(data);
-    } catch (err) {
-      console.warn(err);
-      addSystem('Не удалось доставить сообщение всем участникам');
-    }
+    try { await sendMessage(data); }
+    catch (error) { console.warn(error); addSystem('Не удалось доставить сообщение'); }
   }
 });
-
-// Каждый визит начинается с экрана входа,
-// даже если имя уже сохранено.
+for (const chunk of [load(historyKey, [])]) {
+  if (Array.isArray(chunk)) mergeMessages(chunk.slice(-HISTORY_LIMIT));
+}
+renderPeople();
+connect();
 </script>
 </body>
 </html>
