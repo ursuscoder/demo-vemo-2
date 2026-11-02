@@ -4,12 +4,166 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Секретный чат · шутка</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#242536;background:#f5f6fb}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}.entry{min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#FFECE8,transparent 45%),radial-gradient(circle at 90% 90%,#e1e8ff,transparent 45%),#f8f9fc}.entry-card{width:min(100%,430px);background:#fff;border:1px solid #e9e9f1;border-radius:28px;padding:34px;box-shadow:0 24px 80px #28304b16}.mark{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:#EF3124;color:#fff;font-size:25px;margin-bottom:22px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#EF3124;text-transform:uppercase}.entry h1{font-size:clamp(28px,6vw,37px);line-height:1.1;margin:10px 0 14px}.sub{color:#777b8e;line-height:1.55;margin-bottom:26px}.field-label{display:block;font-weight:700;margin-bottom:9px}.name-input{width:100%;border:1px solid #dfe1e9;border-radius:13px;padding:14px 15px;outline:none}.name-input:focus{border-color:#EF3124;box-shadow:0 0 0 4px #EF312417}.primary{width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:14px;background:#EF3124;color:#fff;font-weight:750}.hint{font-size:12px;color:#999caf;line-height:1.5;margin:18px 0 0}.app{height:100dvh;display:flex;flex-direction:column;max-width:1100px;margin:auto;padding:20px;gap:16px}.top{background:white;border:1px solid #e9e9f1;border-radius:20px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.top h1{font-size:20px;margin:0 0 5px}.top p{font-size:13px;color:#8b8d9c;margin:0}.pill{border-radius:999px;background:#e9f8ef;color:#247b4d;padding:8px 12px;font-size:13px;font-weight:750;white-space:nowrap}.presence-stats{display:flex;flex-wrap:wrap;gap:10px}.stat{background:#fff;border:1px solid #e9e9f1;border-radius:14px;padding:12px 18px;font-size:14px;color:#777b8e}.stat strong{font-size:22px;color:#242536;margin-right:6px}.layout{display:grid;grid-template-columns:240px 1fr;gap:16px;min-height:0;flex:1}.side,.chat{background:white;border:1px solid #e9e9f1;border-radius:20px;min-height:0}.side{padding:20px;overflow:auto}.side h2{font-size:15px;margin:0 0 16px}.people{list-style:none;padding:0;margin:0}.people li{display:flex;align-items:center;gap:10px;padding:10px 0;overflow-wrap:anywhere}.avatar{width:33px;height:33px;flex:none;border-radius:50%;background:#FFF0EE;border:1px solid #f5dedb;display:grid;place-items:center;font-size:18px;line-height:1}.who{font-size:14px;font-weight:650}.me{font-size:11px;color:#9396a3}.rename{background:none;border:0;color:#D82B20;padding:0;margin-top:18px;font-size:13px}.chat{display:flex;flex-direction:column;overflow:hidden}.chat-head{padding:17px 20px;border-bottom:1px solid #f0f0f5;font-weight:750}.chat-head small{display:block;color:#9396a3;font-size:12px;font-weight:400;margin-top:5px}.messages{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:12px}.empty{margin:auto;text-align:center;color:#9a9bab;line-height:1.6}.message{max-width:82%;align-self:flex-start;display:flex;gap:9px;align-items:flex-start}.message.own{align-self:flex-end;flex-direction:row-reverse}.bubble{background:#f2f3f8;padding:11px 14px;border-radius:15px 15px 15px 5px;overflow-wrap:anywhere;min-width:0}.message.own .bubble{background:#FFE7E3;border-radius:15px 15px 5px 15px}.msg-avatar{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:19px;line-height:1;background:#fff;border:1px solid #e9e9f1;box-shadow:0 1px 4px #28304b1f}.meta{font-size:11px;color:#8c8e9e;margin-bottom:5px}.body{white-space:pre-wrap;font-size:14px;line-height:1.45}.system{align-self:center;text-align:center;font-size:12px;color:#9c9eac}.composer{display:flex;gap:10px;padding:14px;border-top:1px solid #f0f0f5}.composer input{flex:1;min-width:0;padding:13px;border:1px solid #e3e4ec;border-radius:12px;outline:none}.composer button{border:0;border-radius:12px;background:#EF3124;color:white;padding:0 20px;font-weight:700}.composer button:disabled{opacity:.5;cursor:not-allowed}.foot{font-size:11px;color:#9b9dad;text-align:center}@media(max-width:650px){.app{padding:10px;gap:10px}.top{padding:14px}.top h1{font-size:17px}.layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}.side{padding:12px 15px;max-height:115px}.side h2{margin:0 0 8px}.people{display:flex;gap:12px;overflow-x:auto}.people li{flex:none;padding:0}.people .avatar{width:28px;height:28px;font-size:15px}.rename{margin:8px 0 0}.chat-head{padding:12px 15px}.messages{padding:14px}.composer{padding:10px}.composer button{padding:0 14px}.msg-avatar{width:28px;height:28px;font-size:16px}.message{max-width:92%}}
+:root{
+  --red:#EF3124; --red-soft:#FFEDEA; --ink:#1d1f2b; --muted:#8a8d9e;
+  --line:#ebebf2; --bg:#f6f7fb; --card:#fff; --radius:20px;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* ---------- экран входа ---------- */
+.entry{
+  min-height:100dvh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(900px 520px at 10% -12%,#ffe8e4,transparent 62%),
+             radial-gradient(820px 520px at 108% 112%,#e6ecff,transparent 62%),var(--bg);
+}
+.entry-card{
+  width:min(100%,410px);background:var(--card);border:1px solid var(--line);
+  border-radius:26px;padding:38px 34px;box-shadow:0 32px 70px -34px rgba(29,31,43,.28);
+}
+.logo{
+  width:56px;height:56px;border-radius:18px;display:grid;place-items:center;
+  background:var(--red);color:#fff;box-shadow:0 12px 26px -12px rgba(239,49,36,.85);
+}
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--red);text-transform:uppercase;margin:22px 0 0}
+.entry h1{font-size:clamp(26px,6vw,32px);line-height:1.15;margin:10px 0 12px;letter-spacing:-.02em}
+.sub{color:var(--muted);line-height:1.55;margin:0 0 24px;font-size:14.5px}
+.entry-online{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:650;color:#247b4d;
+  background:#e9f8ef;border:1px solid #d8f0e2;border-radius:999px;padding:6px 12px;margin:0 0 24px;
+}
+.entry-online::before{content:"";width:7px;height:7px;border-radius:50%;background:#31a15a;box-shadow:0 0 0 3px #31a15a22}
+.field-label{display:block;font-weight:650;font-size:13.5px;margin-bottom:8px;color:#4a4d5e}
+.name-input{width:100%;border:1px solid #e2e3ec;border-radius:13px;padding:14px 15px;outline:none;background:#fbfbfe}
+.name-input:focus{border-color:var(--red);box-shadow:0 0 0 4px #EF312417;background:#fff}
+.primary{
+  width:100%;border:0;border-radius:13px;padding:14px 16px;margin-top:12px;background:var(--red);color:#fff;
+  font-weight:700;box-shadow:0 14px 26px -16px rgba(239,49,36,.9);transition:filter .15s,transform .15s;
+}
+.primary:hover{filter:brightness(1.04)}
+.primary:active{transform:translateY(1px)}
+
+/* ---------- чат ---------- */
+.app{height:100dvh;display:flex;flex-direction:column;max-width:1080px;margin:auto;padding:18px;gap:14px}
+.top{
+  display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:13px 18px;
+}
+.brand-logo{
+  width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;
+  background:var(--red);color:#fff;box-shadow:0 8px 18px -10px rgba(239,49,36,.9);
+}
+.top h1{font-size:16px;margin:0;font-weight:750;letter-spacing:-.01em}
+.top p{font-size:12.5px;color:var(--muted);margin:2px 0 0}
+.layout{display:grid;grid-template-columns:262px 1fr;gap:14px;min-height:0;flex:1}
+
+.side{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;overflow:auto;min-height:0;display:flex;flex-direction:column}
+.side-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.side h2{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0;white-space:nowrap}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#e9f8ef;color:#247b4d;
+  padding:5px 11px;font-size:12.5px;font-weight:700;white-space:nowrap;
+}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:#31a15a}
+.people{list-style:none;padding:0;margin:0;flex:1;min-height:0;overflow:auto}
+.people li{display:flex;align-items:center;gap:10px;padding:8px 0;overflow-wrap:anywhere}
+.avatar{
+  width:32px;height:32px;flex:none;border-radius:50%;background:var(--red-soft);border:1px solid #f6ded9;
+  display:grid;place-items:center;font-size:17px;line-height:1;
+}
+.who{font-size:14px;font-weight:600}
+.who .me{font-size:11px;color:#9a9dae;font-weight:500;margin-left:6px}
+.rename{
+  background:none;border:0;color:var(--red);padding:10px 0 0;margin-top:10px;border-top:1px solid var(--line);
+  font-size:13px;font-weight:600;text-align:left;
+}
+
+.chat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.messages{flex:1;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:14px}
+.empty{margin:auto;text-align:center;color:#9a9bab;line-height:1.7;font-size:14px}
+.message{max-width:80%;align-self:flex-start;display:flex;gap:10px;align-items:flex-start}
+.message.own{align-self:flex-end;flex-direction:row-reverse}
+.bubble{background:#f2f3f8;padding:10px 14px 11px;border-radius:16px 16px 16px 6px;overflow-wrap:anywhere;min-width:0}
+.message.own .bubble{background:var(--red-soft);border-radius:16px 16px 6px 16px}
+.msg-avatar{
+  width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:18px;line-height:1;
+  background:#fff;border:1px solid var(--line);box-shadow:0 1px 4px rgba(29,31,43,.12);
+}
+.meta{font-size:11px;color:#8c8e9e;margin-bottom:4px;display:flex;gap:6px;align-items:center}
+.body{white-space:pre-wrap;font-size:14.5px;line-height:1.45}
+.composer{display:flex;gap:10px;padding:13px;border-top:1px solid var(--line)}
+.composer input{flex:1;min-width:0;padding:13px;border:1px solid #e3e4ec;border-radius:13px;outline:none;background:#fbfbfe}
+.composer input:focus{border-color:var(--red);box-shadow:0 0 0 4px #EF312417;background:#fff}
+.composer button{border:0;border-radius:13px;background:var(--red);color:#fff;padding:0 22px;font-weight:700}
+.composer button:disabled{opacity:.5;cursor:not-allowed}
+
+@media(max-width:680px){
+  .app{padding:10px;gap:10px}
+  .top{padding:11px 14px}
+  .top h1{font-size:15px}
+  .layout{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:10px}
+  .side{padding:12px 14px;max-height:120px}
+  .side-head{margin-bottom:6px}
+  .people{display:flex;gap:14px;overflow-x:auto}
+  .people li{flex:none;padding:0}
+  .people .avatar{width:28px;height:28px;font-size:15px}
+  .rename{margin:8px 0 0;padding:8px 0 0}
+  .messages{padding:14px}
+  .composer{padding:10px}
+  .composer button{padding:0 16px}
+  .msg-avatar{width:28px;height:28px;font-size:16px}
+  .message{max-width:92%}
+}
 </style>
 </head>
 <body>
-<section class="entry" id="entry"><div class="entry-card"><div class="mark"><svg height="40" viewBox="0 0 33 50" width="28" aria-label="Логотип А" role="img"><path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path></svg></div><h1>Вход в секретный чат Альфа-Банка</h1><form id="login"><label class="field-label" for="nickname">Твоё имя</label><input class="name-input" id="nickname" maxlength="32" placeholder="Например, Саша" autocomplete="nickname" required><button class="primary">Войти в чат →</button></form></div></section>
-<main class="app hidden" id="app"><header class="top"><div><h1>А чё это ты сюда вошёл? 👀</h1><p>Ну раз уж зашёл — оставайся поболтать ☕</p></div><span class="pill" id="online">● 1 онлайн</span></header><div class="presence-stats" aria-live="polite"><div class="stat"><strong id="enteringCount">0</strong> вводят имя</div><div class="stat"><strong id="chattingCount">0</strong> уже в чате</div></div><div class="layout"><aside class="side"><h2>Сейчас здесь</h2><ul class="people" id="people"></ul><button class="rename" id="rename">Изменить имя</button></aside><section class="chat"><div class="chat-head">Секретный чат <small id="connection">Подключаемся…</small></div><div class="messages" id="messages"><div class="empty" id="empty">Пока тихо…<br>Начни разговор первым ✨</div></div><form class="composer" id="composer"><input id="message" maxlength="1000" placeholder="Написать сообщение…" autocomplete="off" required><button id="send" type="submit">Отправить</button></form></section></div></main>
+<section class="entry" id="entry">
+  <div class="entry-card">
+    <div class="logo"><svg height="42" viewBox="0 0 33 50" width="30" aria-label="Логотип Альфа-Банка" role="img"><path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+    <p class="eyebrow">Только для своих</p>
+    <h1>Вход в секретный чат Альфа-Банка</h1>
+    <p class="sub">Ни регистрации, ни паролей — только имя, и ты внутри.</p>
+    <div class="entry-online" id="entryOnline">1 онлайн</div>
+    <form id="login">
+      <label class="field-label" for="nickname">Твоё имя</label>
+      <input class="name-input" id="nickname" maxlength="32" placeholder="Например, Саша" autocomplete="nickname" required>
+      <button class="primary">Войти в чат →</button>
+    </form>
+  </div>
+</section>
+
+<main class="app hidden" id="app">
+  <header class="top">
+    <span class="brand-logo"><svg height="30" viewBox="0 0 33 50" width="21" aria-label="Логотип Альфа-Банка" role="img"><path clip-rule="evenodd" d="M0 49.982v-6.825h32.61v6.825H0zm11.646-28.764h9.064L16.39 7.526h-.17l-4.573 13.692h-.001zm10.587-16.22l9.615 28.887h-7.115l-2.16-6.866H9.698l-2.33 6.867H.679l10.09-28.887C11.746 2.197 12.887 0 16.559 0s4.744 2.206 5.674 4.999v-.001z" fill="currentColor" fill-rule="evenodd"></path></svg></span>
+    <div>
+      <h1>Секретный чат</h1>
+      <p id="connection">Подключаемся…</p>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="side">
+      <div class="side-head">
+        <h2>Сейчас здесь</h2>
+        <span class="pill" id="online">1 онлайн</span>
+      </div>
+      <ul class="people" id="people"></ul>
+      <button class="rename" id="rename">Изменить имя</button>
+    </aside>
+    <section class="chat">
+      <div class="messages" id="messages"><div class="empty">Пока тихо…<br>Начни разговор первым ✨</div></div>
+      <form class="composer" id="composer">
+        <input id="message" maxlength="1000" placeholder="Написать сообщение…" autocomplete="off" required>
+        <button id="send" type="submit">Отправить</button>
+      </form>
+    </section>
+  </div>
+</main>
+
 <script type="module">
 import { joinRoom } from 'https://esm.sh/trystero@0.22.0';
 
@@ -33,18 +187,17 @@ const RELAY_URLS = [
 ];
 // Дефолтный ICE-набор trystero — три stun.l.google.com + один cloudflare.
 // stun.l.google.com во многих сетях режется, ICE-gathering виснет на несколько секунд.
-// Поэтому переопределяем iceServers целиком: быстрые STUN + один публичный TURN на крайний случай.
+// Поэтому переопределяем iceServers целиком: быстрые STUN + публичный TURN по TCP/TLS на крайний случай.
 const ICE_SERVERS = [
   {urls: 'stun:stun.cloudflare.com:3478'},
   {urls: 'stuns:stun.nextcloud.com:443'},
-  // TURN по TCP/TLS — рабочий вариант там, где UDP режется фаерволом.
   {urls: 'turn:openrelay.metered.ca:80?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject'},
   {urls: 'turns:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject'}
 ];
 const peers = new Map();
 const history = new Map();
 // Пул эмодзи для аватарок. Эмодзи выбирается по id участника (стабильно между устройствами),
-// а коллизии разводятся пробой вперёд, чтобы в одном списке эмодзи не повторялись.
+// а коллизии разводятся пробом вперёд, чтобы в одном списке эмодзи не повторялись.
 const EMOJI_POOL = [
   '😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰',
   '😘','😋','😜','🤪','🤨','🧐','🤓','😎','🥳','😏','😒','😞','😔','😟','😕','🙁',
@@ -185,12 +338,17 @@ function addSystem(text) {
   // Системные события не входят в общую историю.
   console.info('[presence]', text);
 }
+// Единственный счётчик в интерфейсе — сколько людей сейчас подключено к комнате.
+function updateOnline() {
+  const count = peers.size + 1;
+  $('online').textContent = `${count} онлайн`;
+  $('entryOnline').textContent = `${count} онлайн`;
+}
 function renderPeople() {
   $('people').replaceChildren();
   const all = [
     ...(inChat ? [{name:me.name,self:true,id:me.id}] : []),
-    ...[...peers.values()].filter(x => x.status === 'chatting' && x.name)
-      .map(x => ({name:x.name,self:false,id:x.id || x.peerId}))
+    ...[...peers.values()].filter(x => x.name).map(x => ({name:x.name,self:false,id:x.id || x.peerId}))
   ];
   for (const person of all) {
     const li = document.createElement('li');
@@ -199,17 +357,20 @@ function renderPeople() {
     av.textContent = emojiFor(person.id);
     const label = document.createElement('span');
     label.className = 'who';
-    label.textContent = person.name + (person.self ? ' (ты)' : '');
+    label.textContent = person.name;
+    if (person.self) {
+      const meTag = document.createElement('span');
+      meTag.className = 'me';
+      meTag.textContent = 'ты';
+      label.append(meTag);
+    }
     li.append(av, label);
     $('people').append(li);
   }
-  const entering = (inChat ? 0 : 1) + [...peers.values()].filter(x => x.status !== 'chatting').length;
-  $('enteringCount').textContent = entering;
-  $('chattingCount').textContent = all.length;
-  $('online').textContent = `● ${entering + all.length} на сайте`;
+  updateOnline();
 }
 function profile() {
-  return {id:me.id,name:inChat?me.name:'',status:inChat?'chatting':'entering'};
+  return {id:me.id,name:inChat?me.name:''};
 }
 async function sendHistoryTo(peerId) {
   // Только свежий хвост истории: полная история забивает канал и задерживает живые сообщения.
@@ -238,14 +399,11 @@ function connect() {
     [sendHistoryChunk, receiveHistoryChunk] = room.makeAction('hist-chunk');
 
     receiveProfile((data, peerId) => {
-      if (!data || typeof data.id !== 'string' ||
-          !['entering','chatting'].includes(data.status) ||
-          typeof data.name !== 'string') return;
+      if (!data || typeof data.id !== 'string' || typeof data.name !== 'string') return;
       peers.set(peerId, {
         peerId,
         name: data.name.slice(0,32),
-        id: data.id.slice(0,100),
-        status: data.status
+        id: data.id.slice(0,100)
       });
       renderPeople();
     });
@@ -269,7 +427,7 @@ function connect() {
     });
     room.onPeerJoin(async peerId => {
       // id заполнится из профиля пира; до этого id пустой, чтобы не подменять authorId.
-      if (!peers.has(peerId)) peers.set(peerId, {peerId,id:'',name:'',status:'entering'});
+      if (!peers.has(peerId)) peers.set(peerId, {peerId,id:'',name:''});
       renderPeople();
       $('connection').textContent = 'Связь с участниками установлена';
       try {
