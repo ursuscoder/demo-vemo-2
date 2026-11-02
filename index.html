@@ -143,10 +143,10 @@ function connect() {
     const [, receiveProfile] = room.makeAction('profile');
     [sendMessage] = room.makeAction('chat');
     const [, receiveMessage] = room.makeAction('chat');
-    [sendHistoryRequest] = room.makeAction('history-request');
-    const [, receiveHistoryRequest] = room.makeAction('history-request');
-    [sendHistoryChunk] = room.makeAction('history-chunk');
-    const [, receiveHistoryChunk] = room.makeAction('history-chunk');
+    [sendHistoryRequest] = room.makeAction('hist-request');
+    const [, receiveHistoryRequest] = room.makeAction('hist-request');
+    [sendHistoryChunk] = room.makeAction('hist-chunk');
+    const [, receiveHistoryChunk] = room.makeAction('hist-chunk');
 
     receiveProfile((data, peerId) => {
       if (!data || typeof data.id !== 'string' ||
